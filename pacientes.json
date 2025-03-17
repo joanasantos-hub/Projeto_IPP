@@ -1,0 +1,41 @@
+[
+    {
+      "nome": "Maria Silva",
+      "idade": 30,
+      "sexo": "F",
+      "condicoes_pre_existentes": "None",
+      "localidade": "Braga",
+      "contacto": "912345678",
+      "parente_mais_proximo": "Joao Silva",
+      "medicacoes": "None",
+      "num_cartao_cidadao": "123456789",
+      "NIF": "987654321",
+      "id": "30_F_MariaSilva"
+    },
+    {
+      "nome": "Joao Pereira",
+      "idade": 45,
+      "sexo": "M",
+      "condicoes_pre_existentes": "Hypertension",
+      "localidade": "Coimbra",
+      "contacto": "987654321",
+      "parente_mais_proximo": "Ana Pereira",
+      "medicacoes": "Atenolol",
+      "num_cartao_cidadao": "987654321",
+      "NIF": "123456789",
+      "id": "45_M_JoaoPereira"
+    },
+    {
+      "nome": "Ana Costa",
+      "idade": 60,
+      "sexo": "F",
+      "condicoes_pre_existentes": "Diabetes",
+      "localidade": "Lisboa",
+      "contacto": "919191919",
+      "parente_mais_proximo": "Carlos Costa",
+      "medicacoes": "Insulin",
+      "num_cartao_cidadao": "111222333",
+      "NIF": "444555666",
+      "id": "60_F_AnaCosta"
+    }
+  ]

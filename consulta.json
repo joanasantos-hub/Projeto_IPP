@@ -1,0 +1,21 @@
+[
+    {
+      "data": "2025-04-01",
+      "horario": "14:00",
+      "id_medico": "MD_DrPedroSantos",
+      "id_paciente": "30_F_MariaSilva"
+    },
+    {
+      "data": "2025-04-02",
+      "horario": "09:30",
+      "id_medico": "MD_DraSofiaMartins",
+      "id_paciente": "45_M_JoaoPereira"
+    },
+    {
+      "data": "2025-04-03",
+      "horario": "16:45",
+      "id_medico": "MD_DrLuisAlmeida",
+      "id_paciente": "60_F_AnaCosta"
+    }
+  ]
+  
