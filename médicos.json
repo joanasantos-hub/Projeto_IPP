@@ -1,29 +1,29 @@
 [
     {
-      "nome": "Dr. Pedro Santos",
+      "nome": "Pedro Santos",
       "idade": 50,
       "sexo": "M",
       "localidade": "Porto",
       "especializacao": "Cardiology",
       "horarios_trabalho": "09:00-17:00",
-      "id": "MD_DrPedroSantos"
+      "id": "MD_PedroSantos"
     },
     {
-      "nome": "Dra. Sofia Martins",
+      "nome": "Sofia Martins",
       "idade": 42,
       "sexo": "F",
       "localidade": "Faro",
       "especializacao": "General Medicine",
       "horarios_trabalho": "08:00-16:00",
-      "id": "MD_DraSofiaMartins"
+      "id": "MD_SofiaMartins"
     },
     {
-      "nome": "Dr. Luis Almeida",
+      "nome": "Luis Almeida",
       "idade": 38,
       "sexo": "M",
       "localidade": "Braga",
       "especializacao": "Pediatrics",
       "horarios_trabalho": "10:00-18:00",
-      "id": "MD_DrLuisAlmeida"
+      "id": "MD_LuisAlmeida"
     }
   ]  
