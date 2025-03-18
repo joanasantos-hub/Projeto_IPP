@@ -44,3 +44,20 @@ bd_pac = Carregar_Pacientes('pacientes.json')
 bd_med = Carregar_Médicos('médicos.json')
 bd_cons = Carregar_Consultas('consulta.json')
 bd_vac = Carregar_Campanha('camp_vac.json')
+
+# Atualizar Registos de Clientes -> TESTADA E FUNCIONA!!
+def guardar_registo(paciente): # O argumento recebido é o dicionário criado no SHELL!!
+
+    fnome = 'pacientes.json'
+
+    try:
+        if any(p.get("id") == paciente.get("id") for p in bd_pac): # Verificação de registos duplos -> Se já existir o registo, este não será adicionado à BD
+            return f'Registo de paciente já existe!'
+            
+        bd_pac.append(paciente) # Atualização da base de dados
+        with open(fnome,'w',encoding='utf-8') as f: # Reposição do conteúdo da base de dados
+            json.dump(bd_pac,f,ensure_ascii=False, indent=4)
+            return f'Paciente registado com sucesso!'
+
+    except:
+        return f'Erro! Não foi possível guardar o registo!'
