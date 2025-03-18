@@ -36,13 +36,5 @@ class Paciente:
     
     def guardar_paciente(self): # TESTADA E FUNCIONA!!
 
-        try:
-            if any(p.get("id") == self.id for p in pacientes): # Verificação de registos duplos -> Se já existir o registo, este não será adicionado à BD
-                return f'Registo de paciente já existe!'
-            
-            pacientes.append(self.to_dict())
-            with open(self.fnome,'w', encoding='utf-8') as f:
-                json.dump(pacientes,f,ensure_ascii=False, indent=4)
-
-        except:
-            return f'Erro! Não foi possível guardar o registo!'
+        res = model.guardar_registo(self.to_dict())
+        print(res)
