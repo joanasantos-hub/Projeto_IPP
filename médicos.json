@@ -1,29 +1,65 @@
 [
-    {
-      "nome": "Pedro Santos",
-      "idade": 50,
-      "sexo": "M",
-      "localidade": "Porto",
-      "especializacao": "Cardiology",
-      "horarios_trabalho": "09:00-17:00",
-      "id": "MD_PedroSantos"
-    },
-    {
-      "nome": "Sofia Martins",
-      "idade": 42,
-      "sexo": "F",
-      "localidade": "Faro",
-      "especializacao": "General Medicine",
-      "horarios_trabalho": "08:00-16:00",
-      "id": "MD_SofiaMartins"
-    },
-    {
-      "nome": "Luis Almeida",
-      "idade": 38,
-      "sexo": "M",
-      "localidade": "Braga",
-      "especializacao": "Pediatrics",
-      "horarios_trabalho": "10:00-18:00",
-      "id": "MD_LuisAlmeida"
-    }
-  ]  
+  {
+    "nome": "Pedro Santos",
+    "idade": 50,
+    "sexo": "M",
+    "localidade": "Porto",
+    "especialidade": "CARDIO",
+    "horas_ativas": "09:00-17:00",
+    "id": "MD_PedroSantos"
+  },
+  {
+    "nome": "Maria Oliveira",
+    "idade": 45,
+    "sexo": "F",
+    "localidade": "Lisboa",
+    "especialidade": "PNEUM",
+    "horas_ativas": "08:00-16:00",
+    "id": "MD_MariaOliveira"
+  },
+  {
+    "nome": "João Costa",
+    "idade": 40,
+    "sexo": "M",
+    "localidade": "Coimbra",
+    "especialidade": "CLINICA",
+    "horas_ativas": "10:00-18:00",
+    "id": "MD_JoaoCosta"
+  },
+  {
+    "nome": "Ana Silva",
+    "idade": 35,
+    "sexo": "F",
+    "localidade": "Braga",
+    "especialidade": "ORTO",
+    "horas_ativas": "09:00-17:00",
+    "id": "MD_AnaSilva"
+  },
+  {
+    "nome": "Carlos Pereira",
+    "idade": 55,
+    "sexo": "M",
+    "localidade": "Faro",
+    "especialidade": "DENT",
+    "horas_ativas": "07:00-15:00",
+    "id": "MD_CarlosPereira"
+  },
+  {
+    "nome": "Joana Martins",
+    "idade": 30,
+    "sexo": "F",
+    "localidade": "Évora",
+    "especialidade": "PEDIAT",
+    "horas_ativas": "10:00-18:00",
+    "id": "MD_JoanaMartins"
+  },
+  {
+    "nome": "Sofia Ramos",
+    "idade": 48,
+    "sexo": "F",
+    "localidade": "Porto",
+    "especialidade": "OB/GIN",
+    "horas_ativas": "08:00-16:00",
+    "id": "MD_SofiaRamos"
+  }
+]
