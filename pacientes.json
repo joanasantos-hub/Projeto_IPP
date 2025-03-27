@@ -10,7 +10,8 @@
         "localidade": "lisboa",
         "contacto": 747858,
         "NOK": "diogo",
-        "id": "21_F_2335345"
+        "NOK_contacto": 9288484,
+        "id": "F_353533_2335345"
     },
     {
         "nome": "josé",
@@ -23,7 +24,8 @@
         "localidade": "braga",
         "_Paciente__contacto": 567654,
         "NOK": "carlos",
-        "id": "20_M_66789"
+        "NOK_contacto": 3848993,
+        "id": "M_567654_66789"
     },
     {
         "nome": "lídia",
@@ -36,6 +38,21 @@
         "localidade": "braga",
         "_Paciente__contacto": 23876263,
         "NOK": "vitor",
-        "id": "18_F_65658758"
+        "NOK_contacto": 23489954,
+        "id": "F_3847875_65658758"
+    },
+    {
+        "nome": "matilde",
+        "idade": 22,
+        "sexo": "F",
+        "cond_prévias": "Asma",
+        "medicações": "",
+        "_Paciente__CC": 12345,
+        "_Paciente__NIF": 38757,
+        "localidade": "porto",
+        "_Paciente__contacto": 2398385,
+        "NOK": "machado",
+        "NOK_contacto": 4454785,
+        "id": "F_38757_12345"
     }
 ]
