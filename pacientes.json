@@ -1,58 +1,57 @@
 [
     {
-        "nome": "inês",
-        "idade": 21,
+        "nome": "Joana Santos",
+        "data_nascimento": "2004-07-03",
         "sexo": "F",
-        "cond_prévias": "Diabetes 1",
-        "medicações": "Insulina",
-        "CC": 2335345,
-        "NIF": 353533,
-        "localidade": "lisboa",
-        "contacto": 747858,
-        "NOK": "diogo",
-        "NOK_contacto": 9288484,
-        "id": "F_353533_2335345"
+        "cond_prévias": [],
+        "medicações": [],
+        "_Paciente__CC": 988828323,
+        "_Paciente__NIF": 7834929323,
+        "localidade": "Braga",
+        "_Paciente__contacto": 9002837732,
+        "NOK": "Catarina Santos",
+        "NOK_contacto": 2030493040,
+        "id": "F_7834929323_988828323",
+        "idade": 20
     },
     {
-        "nome": "josé",
-        "idade": 20,
+        "nome": "Pedro Oliveira",
+        "data_nascimento": "1980-12-15",
         "sexo": "M",
-        "cond_prévias": "Diabetes 1",
-        "medicações": "Insulina",
-        "_Paciente__CC": 66789,
-        "_Paciente__NIF": 567654,
-        "localidade": "braga",
-        "_Paciente__contacto": 567654,
-        "NOK": "carlos",
-        "NOK_contacto": 3848993,
-        "id": "M_567654_66789"
+        "cond_prévias": [
+            "hipertensão"
+        ],
+        "medicações": [
+            "atenolol"
+        ],
+        "_Paciente__CC": 123456789,
+        "_Paciente__NIF": 987654321,
+        "localidade": "Lisboa",
+        "_Paciente__contacto": 912345678,
+        "NOK": "Mariana Oliveira",
+        "NOK_contacto": 912345679,
+        "id": "M_987654321_123456789",
+        "idade": 44
     },
     {
-        "nome": "lídia",
-        "idade": 18,
+        "nome": "Ana Ferreira",
+        "data_nascimento": "1995-05-20",
         "sexo": "F",
-        "cond_prévias": "Asma",
-        "medicações": "",
-        "_Paciente__CC": 65658758,
-        "_Paciente__NIF": 3847875,
-        "localidade": "braga",
-        "_Paciente__contacto": 23876263,
-        "NOK": "vitor",
-        "NOK_contacto": 23489954,
-        "id": "F_3847875_65658758"
-    },
-    {
-        "nome": "matilde",
-        "idade": 22,
-        "sexo": "F",
-        "cond_prévias": "Asma",
-        "medicações": "",
-        "_Paciente__CC": 12345,
-        "_Paciente__NIF": 38757,
-        "localidade": "porto",
-        "_Paciente__contacto": 2398385,
-        "NOK": "machado",
-        "NOK_contacto": 4454785,
-        "id": "F_38757_12345"
+        "cond_prévias": [
+            "asma",
+            "diabetes"
+        ],
+        "medicações": [
+            "salbutamol",
+            "metformina"
+        ],
+        "_Paciente__CC": 555666777,
+        "_Paciente__NIF": 111222333,
+        "localidade": "Coimbra",
+        "_Paciente__contacto": 934567890,
+        "NOK": null,
+        "NOK_contacto": null,
+        "id": "F_111222333_555666777",
+        "idade": 29
     }
 ]
