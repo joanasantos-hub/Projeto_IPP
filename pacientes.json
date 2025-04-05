@@ -5,12 +5,14 @@
         "sexo": "F",
         "cond_prévias": [],
         "medicações": [],
-        "_Paciente__CC": 988828323,
-        "_Paciente__NIF": 7834929323,
+        "_CC": 988828323,
+        "_NIF": 7834929323,
         "localidade": "Braga",
-        "_Paciente__contacto": 9002837732,
+        "_contacto": 9002837732,
         "NOK": "Catarina Santos",
         "NOK_contacto": 2030493040,
+        "certificados": [],
+        "consultas": [],
         "id": "F_7834929323_988828323",
         "idade": 20
     },
@@ -24,12 +26,14 @@
         "medicações": [
             "atenolol"
         ],
-        "_Paciente__CC": 123456789,
-        "_Paciente__NIF": 987654321,
+        "_CC": 123456789,
+        "_NIF": 987654321,
         "localidade": "Lisboa",
-        "_Paciente__contacto": 912345678,
+        "_contacto": 912345678,
         "NOK": "Mariana Oliveira",
         "NOK_contacto": 912345679,
+        "certificados": [],
+        "consultas": [],
         "id": "M_987654321_123456789",
         "idade": 44
     },
@@ -45,13 +49,54 @@
             "salbutamol",
             "metformina"
         ],
-        "_Paciente__CC": 555666777,
-        "_Paciente__NIF": 111222333,
+        "_CC": 555666777,
+        "_NIF": 111222333,
         "localidade": "Coimbra",
-        "_Paciente__contacto": 934567890,
+        "_contacto": 934567890,
         "NOK": null,
         "NOK_contacto": null,
+        "certificados": [],
+        "consultas": [],
         "id": "F_111222333_555666777",
         "idade": 29
+    },
+    {
+        "nome": "Camila José Ferreira",
+        "data_nascimento": "2000-02-26",
+        "sexo": "F",
+        "cond_prévias": [
+            "Asma",
+            "Anemia"
+        ],
+        "medicações": [
+            "Ferro"
+        ],
+        "_CC": 283492492935,
+        "_NIF": 38475903590384590,
+        "localidade": "Penafiel",
+        "_contacto": 92049835746,
+        "NOK": "José Maria Ferreira",
+        "NOK_contacto": 829034593989,
+        "certificados": [],
+        "consultas": [],
+        "id": "F_38475903590384590_283492492935",
+        "idade": 25
+    },
+    {
+        "nome": "Ana Soares",
+        "data_nascimento": "2000-10-10",
+        "sexo": "F",
+        "cond_prévias": [],
+        "medicações": [],
+        "_CC": 7894949877,
+        "_NIF": 734829459,
+        "localidade": "Braga",
+        "_contacto": 9027484738,
+        "NOK": "João Soares",
+        "NOK_contacto": 9023984824,
+        "certificados": [],
+        "consultas": [],
+        "id": "F_734829459_7894949877",
+        "idade": 24
     }
 ]
