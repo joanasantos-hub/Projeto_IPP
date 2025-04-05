@@ -1,65 +1,65 @@
 [
   {
     "nome": "Pedro Santos",
-    "idade": 50,
     "sexo": "M",
+    "contacto": 99023893736,
     "localidade": "Porto",
     "especialidade": "CARDIO",
-    "horas_ativas": "09:00-17:00",
-    "id": "MD_PedroSantos"
+    "horas_ativas": "09-17",
+    "id": "MD_PedroSantos_CARDIO"
   },
   {
     "nome": "Maria Oliveira",
-    "idade": 45,
     "sexo": "F",
+    "contacto": 82342040294,
     "localidade": "Lisboa",
     "especialidade": "PNEUM",
-    "horas_ativas": "08:00-16:00",
-    "id": "MD_MariaOliveira"
+    "horas_ativas": "08-16",
+    "id": "MD_MariaOliveira_PNEUM"
   },
   {
     "nome": "João Costa",
-    "idade": 40,
     "sexo": "M",
+    "contacto": 1778319302,
     "localidade": "Coimbra",
     "especialidade": "CLINICA",
-    "horas_ativas": "10:00-18:00",
-    "id": "MD_JoaoCosta"
+    "horas_ativas": "10-18",
+    "id": "MD_JoaoCosta_CLINICA"
   },
   {
     "nome": "Ana Silva",
-    "idade": 35,
     "sexo": "F",
+    "contacto": 923048183174,
     "localidade": "Braga",
     "especialidade": "ORTO",
-    "horas_ativas": "09:00-17:00",
-    "id": "MD_AnaSilva"
+    "horas_ativas": "09-17",
+    "id": "MD_AnaSilva_ORTO"
   },
   {
     "nome": "Carlos Pereira",
-    "idade": 55,
     "sexo": "M",
+    "contacto": 1829381991,
     "localidade": "Faro",
     "especialidade": "DENT",
-    "horas_ativas": "07:00-15:00",
-    "id": "MD_CarlosPereira"
+    "horas_ativas": "07-15",
+    "id": "MD_CarlosPereira_DENT"
   },
   {
     "nome": "Joana Martins",
-    "idade": 30,
     "sexo": "F",
+    "contacto": 2183488484,
     "localidade": "Évora",
     "especialidade": "PEDIAT",
-    "horas_ativas": "10:00-18:00",
-    "id": "MD_JoanaMartins"
+    "horas_ativas": "10-18",
+    "id": "MD_JoanaMartins_PEDIAT"
   },
   {
     "nome": "Sofia Ramos",
-    "idade": 48,
     "sexo": "F",
+    "contacto": 8347274674,
     "localidade": "Porto",
     "especialidade": "OB/GIN",
-    "horas_ativas": "08:00-16:00",
-    "id": "MD_SofiaRamos"
+    "horas_ativas": "08-16",
+    "id": "MD_SofiaRamos_OB/GIN"
   }
 ]
