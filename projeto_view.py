@@ -322,7 +322,7 @@ def Marcação_Cons_Layout(data, slot, med_nome, med_id, especialidade, paciente
 
     layout = [
 
-        [sg.Text(f'Agendar consulta para o dia {data}, {slot}?', font= ("Arial Rounded Mt Bold", 12), text_color= 'white', background_color= '#FF69B4')],
+        [sg.Text(f'Agendar consulta para o dia {data}, {slot}', font= ("Arial Rounded Mt Bold", 12), text_color= 'white', background_color= '#FF69B4')],
         [sg.Text(f'Médico Especialista: {med_nome}', font= ("Arial Rounded Mt Bold", 12), text_color= 'white', background_color= '#FF69B4')],
         [sg.Button('Confirmar', font= ("Arial Rounded Mt Bold", 12), key= '-CONFIRMAR-'), sg.Button('Cancelar', font= ("Arial Rounded Mt Bold", 12), key= '-CANCELAR-')]
     ]
