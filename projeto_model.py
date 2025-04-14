@@ -1,6 +1,6 @@
 # MODEL -> Atualização das bases de dados, Implementação de funções
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Carregar Bases de Dados Para a Memória -> TESTADA E FUNCIONA!
 def Carregar_BD(fnome):
@@ -18,7 +18,7 @@ médicos = Carregar_BD('médicos.json')
 consultas = Carregar_BD('consulta.json')
 campanha = Carregar_BD('camp_vac.json')
 
-# Atribuitos dos Pacientes
+# Atributos dos Pacientes
 class Paciente:
 
     def __init__(self, nome, data_nascimento, sexo, cond_prévias, medicações, CC, NIF, contacto, NOK, NOK_contacto, localidade):
@@ -27,7 +27,7 @@ class Paciente:
         self.data_nascimento = data_nascimento.strip()
         self.sexo = sexo
         self.cond_prévias = [cond.strip() for cond in cond_prévias.split(',') if cond.strip() != '']
-        self.medicações = [meds.strip() for meds in medicações.split(',')if meds.strip() != '']
+        self.medicações = []
         self._CC = CC
         self._NIF = NIF
         self.localidade = localidade.strip()
@@ -35,13 +35,27 @@ class Paciente:
         self.NOK = NOK.strip()
         self.NOK_contacto = NOK_contacto
         self.certificados = []
-        self.consultas = []
+        #self.consultas = []
         self.id = f'{self.sexo}_{self._NIF}_{self._CC}'
 
         if NOK == '':
             self.NOK = None
             self.NOK_contacto = None
-    
+
+        for med in medicações.split(','):
+            
+            med = med.strip()
+            if med:
+
+                blocos = med.split(':')
+                if len(blocos) == 2:
+
+                    nome_med = blocos[0].strip()
+                    dosagem = blocos[1].strip()
+                    self.medicações.append((nome_med,dosagem))
+                else:
+                    self.medicações.append()
+                    
     def idade_paciente(self): # Atualização automática da idade do paciente
 
         nascimento = datetime.strptime(self.data_nascimento, '%Y-%m-%d')
@@ -73,21 +87,6 @@ class Médico:
             horas_ativas = med['horas_ativas']
             localidade = med['localidade']
             contacto = med['contacto']
-    
-    def consulta(self, horas_ativas):
-
-        dias_semana = 7
-        horas = horas_ativas.split('-')
-        slots = (int(horas[1]) - int(horas[0])) * 3
-
-        consultas = [[0 for d in range(dias_semana)] for s in range(slots)]
-
-    def tabela_consultas(self, consultas):
-
-        for linha in consultas:
-            for elem in linha:
-                print(elem, end=' ')
-            print()
 
 # Atualizar Registos de Pacientes -> TESTADA E FUNCIONA!!
 def guardar_registo(paciente): # O argumento recebido é o dicionário criado no CONTROLLER!!
@@ -112,5 +111,63 @@ def log_in(CC):
 
     for paciente in pacientes:
         if CC == paciente.get('_CC'):
-            return True
-    return False
+            return True, paciente
+    return False, None
+
+# Criação do Calendário de Agendamento
+def slots_calendário(data, horário_ind):
+
+    tempo  = 30
+
+    data_consulta = datetime.strptime(data, '%Y-%m-%d')
+    if data_consulta.weekday() == 6: # Não há consultas ao domingo!!
+        return False
+
+    slots = []
+
+    (início_dia, final_dia) = horário_ind.split('-')
+    slot_0 = data_consulta.replace(hour= int(início_dia), minute= 0)
+    slot_final = data_consulta.replace(hour= int(final_dia), minute= 0)
+
+    while slot_0 < slot_final:
+
+        next_slot = slot_0 + timedelta(minutes = tempo) # A utilização do timedelta permite definir intervalos de tempo para a duração de cada consulta!
+        if not (slot_0.hour == 13 or (slot_0.hour < 13 and next_slot.hour > 14)):
+            slot_almoço = f'{slot_0.strftime('%H:%M')} -  {next_slot.strftime('%H:%M')}' # HORA DE ALMOÇO DOS MÉDICOS!
+            slots.append(slot_almoço)
+        slot_0 = next_slot
+    return slots
+
+# Verificação de Slots Disponíveis
+def slots_disponíveis(médico,data):
+
+    slots = slots_calendário(data,médico['horas_ativas'])
+    
+    slots_ocupados = [consulta['horário'] for consulta in consultas if consulta['id_médico'] == médico['id'] and consulta['data'] == data]
+    slots_disponíveis = [slot for slot in slots if slot not in slots_ocupados]
+    
+    return slots_disponíveis
+
+# Marcação de Consultas
+def marcar_consulta(nova_consulta):
+
+    for consulta in consultas:
+        if (consulta['id_médico'] == nova_consulta['id_médico'] and consulta['data'] == nova_consulta['data'] and consulta['horário'] == nova_consulta['horário']):
+            return 'O horário selecionado já se encontra ocupado!'
+    consultas.append(nova_consulta)
+
+    if guardar_consulta(consultas):
+        return 'Consulta marcada com sucesso!'
+    else:
+        return 'Erro! Não foi possível gravar a sua marcação!'
+    
+# Registo de Consultas
+def guardar_consulta(consulta):
+
+    try:
+        with open('consulta.json','w', encoding= 'utf-8') as f:
+            json.dump(consulta,f, ensure_ascii= False,indent= 4)
+        return True
+    
+    except:
+        return f'Erro! Não foi possível gravar a sua marcação!'
