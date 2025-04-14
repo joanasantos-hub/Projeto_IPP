@@ -34,8 +34,6 @@ class Paciente:
         self._contacto = contacto
         self.NOK = NOK.strip()
         self.NOK_contacto = NOK_contacto
-        self.certificados = []
-        #self.consultas = []
         self.id = f'{self.sexo}_{self._NIF}_{self._CC}'
 
         if NOK == '':
