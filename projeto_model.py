@@ -1,6 +1,6 @@
 # MODEL -> Atualização das bases de dados, Implementação de funções
 import json
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 # Carregar Bases de Dados Para a Memória -> TESTADA E FUNCIONA!
 def Carregar_BD(fnome):
@@ -50,7 +50,7 @@ class Paciente:
 
                     nome_med = blocos[0].strip()
                     dosagem = blocos[1].strip()
-                    self.medicações.append((nome_med,dosagem))
+                    self.medicações.append([nome_med,dosagem])
                 else:
                     self.medicações.append()
                     
@@ -86,8 +86,8 @@ class Médico:
             localidade = med['localidade']
             contacto = med['contacto']
 
-# Atualizar Registos de Pacientes -> TESTADA E FUNCIONA!!
-def guardar_registo(paciente): # O argumento recebido é o dicionário criado no CONTROLLER!!
+# Atualizar Registos de Pacientes
+def guardar_registo(paciente): # O argumento recebido é o dicionário com as informações do paciente!!
 
     fnome = 'pacientes.json'
 
@@ -104,7 +104,7 @@ def guardar_registo(paciente): # O argumento recebido é o dicionário criado no
     except:
         return f'Erro! Não foi possível guardar o registo!'
 
-# Processo Inicial de Log In para o Portal do Utente -> TESTADA E FUNCIONA!!   
+# Processo Inicial de Log In para o Portal do Utente
 def log_in(CC):
 
     for paciente in pacientes:
@@ -159,13 +159,74 @@ def marcar_consulta(nova_consulta):
     else:
         return 'Erro! Não foi possível gravar a sua marcação!'
     
-# Registo de Consultas
+# Registo de Consultas Marcadas
 def guardar_consulta(consulta):
 
     try:
         with open('consulta.json','w', encoding= 'utf-8') as f:
-            json.dump(consulta,f, ensure_ascii= False,indent= 4)
+            json.dump(consulta, f, ensure_ascii= False,indent= 4)
         return True
     
     except:
         return f'Erro! Não foi possível gravar a sua marcação!'
+
+# Cancelamento de Consultas Agendadas
+def cancelar_cons(consulta):
+
+    try:
+
+        consultas.remove(consulta)
+        with open('consulta.json','w', encoding= 'utf-8') as f:
+            json.dump(consultas, f, ensure_ascii= False, indent= 4)
+        return f'A consulta foi cancelada com sucesso!'
+    
+    except:
+        return f'Erro! Não foi possível cancelar a sua consulta!'
+
+# Consultas Agendadas e Não Concluídas
+def consultas_futuras(paciente_id):
+
+    cons_futuras = []
+    data_atual = date.today()
+
+    for consulta in consultas:
+        if paciente_id == consulta['id_paciente']:
+            
+            data = datetime.strptime(consulta['data'], '%Y-%m-%d').date()
+            if data >= data_atual:
+                cons_futuras.append(consulta)
+    
+    return cons_futuras
+
+# Histórico de Consultas do Utente
+class cons_concluídas:
+
+    def __init__(self):
+        self.concluídas = []
+    
+    def push(self, consulta):
+        self.concluídas.append(consulta)
+    
+    def total_concluídas(self):
+        return self.concluídas
+
+def hist_consultas(paciente_id):
+
+    paciente_consultas = cons_concluídas()
+    data_atual = date.today()
+
+    for consulta in consultas:
+        if paciente_id == consulta['id_paciente']:
+            
+            data = datetime.strptime(consulta['data'], '%Y-%m-%d').date()
+            if data < data_atual:
+                paciente_consultas.push(consulta)
+    
+    return paciente_consultas.total_concluídas()
+
+def hist_medicações(paciente_id):
+
+    for paciente in pacientes:
+        if paciente_id == paciente['id']:
+            return paciente['medicações']
+    return []
