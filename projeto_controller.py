@@ -1,10 +1,10 @@
 # CONTROLLER -> Controlo do Sistema, Funções de Arranque
-import json
 import projeto_model as model
 import projeto_view as view
 from datetime import datetime, timedelta
-import random
 
+
+# Processamento do Novo Registo de Utente
 def processar_registo(values):
 
     try:
@@ -24,11 +24,12 @@ def processar_registo(values):
     
         res = model.guardar_registo(paciente.to_dict())
         return res
-    
+
     except:
         pass
 
-paciente_logged = None # Variável global que irá armazenar as informações do paciente que realizou log in!
+# Processamento do Log In do Utente
+paciente_logged = None
 
 def check_login(values):
 
@@ -46,13 +47,14 @@ def check_login(values):
     except:
         pass
 
-def info_paciente_logged(): # Retornamos as informações do paciente para que possam ser acedidas no portal!
+def info_paciente_logged(): # Informações do paciente que realizou log in no portal!
     return paciente_logged
 
 # Seleção de Médicos por Especialidade
 def médicos_especialidade(especialidade):
     return [med for med in model.médicos if med['especialidade'] == especialidade]
 
+# Criação do Calendário por Especialidade
 def agenda_especialidade(especialidade, semana_0):
 
     med_especialistas = médicos_especialidade(especialidade)
@@ -75,25 +77,26 @@ def agenda_especialidade(especialidade, semana_0):
 
         for slot in slots:
 
-            slot_ocupado = None
-
-            for consulta in consultas:
-                if (consulta['data'] == data and consulta['horário'] == slot and consulta['especialidade'].upper() == especialidade.upper()):
-                    slot_ocupado = consulta['id_médico']
+            # Slots são definidos para cada médico! Se um médico tiver um slot ocupado continua a ser possível agendar esse slot para outros médicos especialistas!
+            slot_ocupado = [consulta['id_médico'] for consulta in consultas if (consulta['data'] == data and consulta['horário'] == slot and consulta['especialidade'] == especialidade)]
             
-            if slot_ocupado:
+            med_restantes = [med for med in med_especialistas if med['id'] not in slot_ocupado] # Criamos uma lista dos médicos que ainda possuem vagas para o slot selecionado!
 
-                info_med = next((med for med in med_especialistas if med['id'] == slot_ocupado), None)
-                nome_md = info_med['nome']
-                agenda[(dia_index,slot)] = {'médico': nome_md, 'marcada': True, 'id_médico': slot_ocupado}
-            
+            if med_restantes:
+
+                restantes_id = tuple(med['id'] for med in med_restantes)
+                display = 'Disponível'
+                agenda[(dia_index,slot)] = {'médico': display, 'marcada': False, 'id_médico': restantes_id}
+
             else:
 
-                escolhido = random.choice(med_especialistas)
-                agenda[(dia_index,slot)] = {'médico': escolhido['nome'], 'marcada': False, 'id_médico': escolhido['id']}
+                slot_ocupado_id = slot_ocupado[0]
+                display = 'Ocupado'
+                agenda[(dia_index,slot)] = {'médico': display, 'marcada': True, 'id_médico': slot_ocupado_id}
     
     return semana, slots, agenda
 
+# Processamento da Marcação de Consultas
 def processar_marcar_consulta(data, slot, especialidade, med_id, paciente_id):
 
     for med in model.médicos:
@@ -101,6 +104,7 @@ def processar_marcar_consulta(data, slot, especialidade, med_id, paciente_id):
             med_contacto = med['contacto']
 
     nova_consulta = {
+        
         "data": data, 
         "horário": slot, 
         "especialidade": especialidade.upper(), 
@@ -112,8 +116,30 @@ def processar_marcar_consulta(data, slot, especialidade, med_id, paciente_id):
     res = model.marcar_consulta(nova_consulta)
     return res
 
-def main():
+# Processamento da Informação de Consultas Concluídas do Paciente
+def info_hist_consultas(paciente_id):
+    
+    consultas_ind = model.hist_consultas(paciente_id)
+    return consultas_ind
 
+# Processamento da Informação de Prescrições Médicas do Paciente
+def info_hist_medicações(paciente_id):
+    
+    medicações_ind = model.hist_medicações(paciente_id)
+    return medicações_ind
+
+# Processamento da Informação de Consultas Não Concluídas do Paciente
+def info_consultas_futuras(paciente_id):
+
+    consultas_fut = model.consultas_futuras(paciente_id)
+    return consultas_fut
+
+def processar_cancelar_consulta(consulta):
+
+    res = model.cancelar_cons(consulta)
+    return res
+
+def main():
     view.run_interface()
 
 if __name__ == "__main__":
