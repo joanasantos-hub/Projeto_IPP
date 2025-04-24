@@ -1,21 +1,226 @@
 [
     {
-      "data": "2025-04-01",
-      "horario": "14:00",
-      "id_medico": "MD_PedroSantos",
-      "id_paciente": "30_F_MariaSilva"
+        "data": "2025-04-08",
+        "horário": "09:00 -  09:30",
+        "especialidade": "CARDIO",
+        "id_médico": "MD_PedroSantos_CARDIO",
+        "id_paciente": "M_987654321_123456789",
+        "contacto_médico": 99023893736
     },
     {
-      "data": "2025-04-02",
-      "horario": "09:30",
-      "id_medico": "MD_SofiaMartins",
-      "id_paciente": "45_M_JoaoPereira"
+        "data": "2025-04-09",
+        "horário": "10:30 -  11:00",
+        "especialidade": "CARDIO",
+        "id_médico": "MD_LuisAlmeida_CARDIO",
+        "id_paciente": "F_111222333_555666777",
+        "contacto_médico": 91234567891
     },
     {
-      "data": "2025-04-03",
-      "horario": "16:45",
-      "id_medico": "MD_LuisAlmeida",
-      "id_paciente": "60_F_AnaCosta"
+        "data": "2025-04-10",
+        "horário": "15:30 -  16:00",
+        "especialidade": "CARDIO",
+        "id_médico": "MD_RicardoSilva_CARDIO",
+        "id_paciente": "M_222333444_555777888",
+        "contacto_médico": 91234567892
+    },
+    {
+        "data": "2025-04-08",
+        "horário": "08:30 -  09:00",
+        "especialidade": "PNEUM",
+        "id_médico": "MD_MariaOliveira_PNEUM",
+        "id_paciente": "F_777888999_222333444",
+        "contacto_médico": 82342040294
+    },
+    {
+        "data": "2025-04-09",
+        "horário": "10:00 -  10:30",
+        "especialidade": "PNEUM",
+        "id_médico": "MD_AndreSousa_PNEUM",
+        "id_paciente": "F_999000111_444555666",
+        "contacto_médico": 82342040295
+    },
+    {
+        "data": "2025-04-10",
+        "horário": "15:00 -  15:30",
+        "especialidade": "PNEUM",
+        "id_médico": "MD_BeatrizNunes_PNEUM",
+        "id_paciente": "F_333444555_666777888",
+        "contacto_médico": 82342040296
+    },
+    {
+        "data": "2025-04-08",
+        "horário": "11:00 -  11:30",
+        "especialidade": "CLÍNICA",
+        "id_médico": "MD_JoaoCosta_CLINICA",
+        "id_paciente": "F_38475903590384590_283492492935",
+        "contacto_médico": 1778319302
+    },
+    {
+        "data": "2025-04-09",
+        "horário": "16:00 -  16:30",
+        "especialidade": "CLÍNICA",
+        "id_médico": "MD_MartaLopes_CLINICA",
+        "id_paciente": "M_222333444_555777888",
+        "contacto_médico": 1778319303
+    },
+    {
+        "data": "2025-04-10",
+        "horário": "10:30 -  11:00",
+        "especialidade": "CLÍNICA",
+        "id_médico": "MD_RuiFernandes_CLINICA",
+        "id_paciente": "M_888999000_333444555",
+        "contacto_médico": 1778319304
+    },
+    {
+        "data": "2025-04-09",
+        "horário": "14:30 -  15:00",
+        "especialidade": "ORTO",
+        "id_médico": "MD_BeatrizCosta_ORTO",
+        "id_paciente": "F_734829459_7894949877",
+        "contacto_médico": 923048183175
+    },
+    {
+        "data": "2025-04-10",
+        "horário": "16:00 -  16:30",
+        "especialidade": "ORTO",
+        "id_médico": "MD_PauloRibeiro_ORTO",
+        "id_paciente": "F_333444555_666777888",
+        "contacto_médico": 923048183176
+    },
+    {
+        "data": "2025-04-08",
+        "horário": "07:30 -  08:00",
+        "especialidade": "DENT",
+        "id_médico": "MD_CarlosPereira_DENT",
+        "id_paciente": "M_556677889_112233445",
+        "contacto_médico": 1829381991
+    },
+    {
+        "data": "2025-04-09",
+        "horário": "09:00 -  09:30",
+        "especialidade": "DENT",
+        "id_médico": "MD_RenataMartins_DENT",
+        "id_paciente": "F_999000111_444555666",
+        "contacto_médico": 1829381992
+    },
+    {
+        "data": "2025-04-10",
+        "horário": "11:30 -  12:00",
+        "especialidade": "DENT",
+        "id_médico": "MD_RicardoGomes_DENT",
+        "id_paciente": "M_222333444_555777888",
+        "contacto_médico": 1829381993
+    },
+    {
+        "data": "2025-04-08",
+        "horário": "10:00 -  10:30",
+        "especialidade": "PEDIAT",
+        "id_médico": "MD_JoanaMartins_PEDIAT",
+        "id_paciente": "M_444555666_111000111",
+        "contacto_médico": 2183488484
+    },
+    {
+        "data": "2025-04-08",
+        "horário": "08:30 -  09:00",
+        "especialidade": "OB/GIN",
+        "id_médico": "MD_SofiaRamos_OB/GIN",
+        "id_paciente": "F_777888999_222333444",
+        "contacto_médico": 8347274674
+    },
+    {
+        "data": "2025-04-09",
+        "horário": "11:00 -  11:30",
+        "especialidade": "OB/GIN",
+        "id_médico": "MD_CarlaMendes_OB/GIN",
+        "id_paciente": "F_999000111_444555666",
+        "contacto_médico": 8347274675
+    },
+    {
+        "data": "2025-04-11",
+        "horário": "10:00 -  10:30",
+        "especialidade": "PEDIAT",
+        "id_médico": "MD_SofiaAlmeida_PEDIAT",
+        "id_paciente": "M_202020202_101010101",
+        "contacto_médico": 2183488485
+    },
+    {
+        "data": "2025-04-11",
+        "horário": "10:30 -  11:00",
+        "especialidade": "PEDIAT",
+        "id_médico": "MD_TeresaNunes_PEDIAT",
+        "id_paciente": "M_404040404_303030303",
+        "contacto_médico": 2183488486
+    },
+    {
+        "data": "2025-04-11",
+        "horário": "11:00 -  11:30",
+        "especialidade": "PEDIAT",
+        "id_médico": "MD_JoanaMartins_PEDIAT",
+        "id_paciente": "F_606060606_505050505",
+        "contacto_médico": 2183488484
+    },
+    {
+        "data": "2025-04-14",
+        "horário": "12:00 -  12:30",
+        "especialidade": "DENT",
+        "id_médico": "MD_RenataMartins_DENT",
+        "id_paciente": "F_777888999_222333444",
+        "contacto_médico": 1829381992
+    },
+    {
+        "data": "2025-04-14",
+        "horário": "12:00 -  12:30",
+        "especialidade": "ORTO",
+        "id_médico": "MD_AnaSilva_ORTO",
+        "id_paciente": "M_987654321_123456789",
+        "contacto_médico": 923048183174
+    },
+    {
+        "data": "2025-04-17",
+        "horário": "14:30 -  15:00",
+        "especialidade": "OB/GIN",
+        "id_médico": "MD_InesFranco_OB/GIN",
+        "id_paciente": "F_777888999_222333444",
+        "contacto_médico": 8347274676
+    },
+    {
+        "data": "2025-04-14",
+        "horário": "08:00 -  08:30",
+        "especialidade": "PNEUM",
+        "id_médico": "MD_MariaOliveira_PNEUM",
+        "id_paciente": "M_987654321_123456789",
+        "contacto_médico": 82342040294
+    },
+    {
+        "data": "2025-04-14",
+        "horário": "08:00 -  08:30",
+        "especialidade": "PNEUM",
+        "id_médico": "MD_AndreSousa_PNEUM",
+        "id_paciente": "F_734829459_7894949877",
+        "contacto_médico": 82342040295
+    },
+    {
+        "data": "2025-04-14",
+        "horário": "08:00 -  08:30",
+        "especialidade": "PNEUM",
+        "id_médico": "MD_BeatrizNunes_PNEUM",
+        "id_paciente": "M_556677889_112233445",
+        "contacto_médico": 82342040296
+    },
+    {
+        "data": "2025-04-22",
+        "horário": "10:30 -  11:00",
+        "especialidade": "CARDIO",
+        "id_médico": "MD_PedroSantos_CARDIO",
+        "id_paciente": "M_556677889_112233445",
+        "contacto_médico": 99023893736
+    },
+    {
+        "data": "2025-04-18",
+        "horário": "14:00 -  14:30",
+        "especialidade": "DENT",
+        "id_médico": "MD_RicardoGomes_DENT",
+        "id_paciente": "M_556677889_112233445",
+        "contacto_médico": 1829381993
     }
-  ]
-  
+]
