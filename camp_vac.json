@@ -1,0 +1,60 @@
+[
+    {
+        "nome": "Fernando Ernesto Rocha",
+        "data_nascimento": "1944-01-22",
+        "sexo": "M",
+        "certificados": [],
+        "vacina": "COVID-19",
+        "dose": "Reforço Sazonal",
+        "_CC": 12233445,
+        "localidade": "Sobradelo da Goma",
+        "_contacto": 918376456,
+        "idade": 81
+    },
+    {
+        "nome": "Maria Manuela Neves Machado",
+        "data_nascimento": "1944-05-14",
+        "sexo": "F",
+        "certificados": [
+            [
+                "COVID-19",
+                "1ª",
+                "2021-01-02"
+            ],
+            [
+                "COVID-19",
+                "2ª",
+                "2021-01-30"
+            ]
+        ],
+        "vacina": "Gripe A",
+        "dose": "Reforço Sazonal",
+        "_CC": 23344556,
+        "localidade": "Sobradelo da Goma",
+        "_contacto": 925649153,
+        "idade": 81
+    },
+    {
+        "nome": "Bruno Silva",
+        "data_nascimento": "1975-07-20",
+        "sexo": "M",
+        "certificados": [
+            [
+                "COVID-19",
+                "1ª",
+                "2021-02-01"
+            ],
+            [
+                "COVID-19",
+                "2ª",
+                "2021-02-22"
+            ]
+        ],
+        "vacina": "COVID-19",
+        "dose": "Reforço Sazonal (COVID-19, Gripe A)",
+        "_CC": 23456789,
+        "localidade": "S. Martinho das Amoreiras",
+        "_contacto": 910000002,
+        "idade": 49
+    }
+]
