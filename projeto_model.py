@@ -6,7 +6,7 @@ from datetime import date, datetime, timedelta
 def Carregar_BD(fnome):
 
     try:
-        with open(fnome,'r', encoding='utf-8') as f:
+        with open(fnome,'r', encoding= 'utf-8') as f:
             dados = json.load(f)
         return dados
     
@@ -43,14 +43,15 @@ class Paciente:
         for med in medicações.split(','):
             
             med = med.strip()
+
             if med:
-
                 blocos = med.split(':')
-                if len(blocos) == 2:
 
+                if len(blocos) == 2:
                     nome_med = blocos[0].strip()
                     dosagem = blocos[1].strip()
                     self.medicações.append([nome_med,dosagem])
+                
                 else:
                     self.medicações.append()
                     
@@ -67,26 +68,7 @@ class Paciente:
         info_paciente['idade'] = self.idade_paciente()
         return info_paciente
 
-# Atributos dos Médicos
-class Médico:
-
-    def __init__(self, id, especialidade, horas_ativas, localidade, contacto):
-        
-        self.id = id
-        self.especialidade = especialidade
-        self.horas_ativas = horas_ativas
-        self.localidade = localidade
-        self.contacto = contacto
-
-        for med in médicos:
-
-            id = med['id']
-            especialidade = med['especialidade']
-            horas_ativas = med['horas_ativas']
-            localidade = med['localidade']
-            contacto = med['contacto']
-
-# Atualizar Registos de Pacientes
+# Atualização do Registo de Pacientes
 def guardar_registo(paciente): # O argumento recebido é o dicionário com as informações do paciente!!
 
     fnome = 'pacientes.json'
@@ -97,8 +79,8 @@ def guardar_registo(paciente): # O argumento recebido é o dicionário com as in
     pacientes.append(paciente) 
     
     try:
-        with open(fnome,'w',encoding='utf-8') as f:
-            json.dump(pacientes,f,ensure_ascii=False, indent=4)
+        with open(fnome,'w', encoding= 'utf-8') as f:
+            json.dump(pacientes, f, ensure_ascii= False, indent= 4)
         return f'Paciente registado com sucesso!'
 
     except:
@@ -115,9 +97,9 @@ def log_in(CC):
 # Criação do Calendário de Agendamento
 def slots_calendário(data, horário_ind):
 
-    tempo  = 30
-
+    tempo = 30 # Cada consulta tem uma duração base de 30 minutos
     data_consulta = datetime.strptime(data, '%Y-%m-%d')
+
     if data_consulta.weekday() == 6: # Não há consultas ao domingo!!
         return False
 
@@ -130,10 +112,12 @@ def slots_calendário(data, horário_ind):
     while slot_0 < slot_final:
 
         next_slot = slot_0 + timedelta(minutes = tempo) # A utilização do timedelta permite definir intervalos de tempo para a duração de cada consulta!
+        
         if not (slot_0.hour == 13 or (slot_0.hour < 13 and next_slot.hour > 14)):
             slot_almoço = f'{slot_0.strftime('%H:%M')} -  {next_slot.strftime('%H:%M')}' # HORA DE ALMOÇO DOS MÉDICOS!
             slots.append(slot_almoço)
         slot_0 = next_slot
+    
     return slots
 
 # Verificação de Slots Disponíveis
@@ -159,7 +143,7 @@ def marcar_consulta(nova_consulta):
     else:
         return 'Erro! Não foi possível gravar a sua marcação!'
     
-# Registo de Consultas Marcadas
+# Atualização do Registo de Consultas
 def guardar_consulta(consulta):
 
     try:
@@ -174,7 +158,6 @@ def guardar_consulta(consulta):
 def cancelar_cons(consulta):
 
     try:
-
         consultas.remove(consulta)
         with open('consulta.json','w', encoding= 'utf-8') as f:
             json.dump(consultas, f, ensure_ascii= False, indent= 4)
@@ -191,42 +174,149 @@ def consultas_futuras(paciente_id):
 
     for consulta in consultas:
         if paciente_id == consulta['id_paciente']:
-            
             data = datetime.strptime(consulta['data'], '%Y-%m-%d').date()
+
             if data >= data_atual:
                 cons_futuras.append(consulta)
     
     return cons_futuras
 
-# Histórico de Consultas do Utente
-class cons_concluídas:
+# Histórico de Todas as Consultas do Utente (Concluídas + Futuras)
+class Total_consultas:
 
     def __init__(self):
-        self.concluídas = []
+        self.total = []
     
     def push(self, consulta):
-        self.concluídas.append(consulta)
+        self.total.append(consulta)
     
     def total_concluídas(self):
-        return self.concluídas
+        return self.total
 
 def hist_consultas(paciente_id):
 
-    paciente_consultas = cons_concluídas()
-    data_atual = date.today()
+    paciente_consultas = Total_consultas()
 
     for consulta in consultas:
         if paciente_id == consulta['id_paciente']:
-            
-            data = datetime.strptime(consulta['data'], '%Y-%m-%d').date()
-            if data < data_atual:
-                paciente_consultas.push(consulta)
+            paciente_consultas.push(consulta)
     
-    return paciente_consultas.total_concluídas()
+    return sorted(paciente_consultas.total_concluídas(), key= lambda cons: datetime.strptime(cons['data'], '%Y-%m-%d'), reverse= True) # Organizamos as consultas pela mais recente até à mais antiga!
 
+# Histórico de Medicações do Utente
 def hist_medicações(paciente_id):
 
     for paciente in pacientes:
         if paciente_id == paciente['id']:
             return paciente['medicações']
     return []
+
+# Disponibilidade de Marcação de Consultas por Especialidade em Cada Localidade
+def próxima_disponibilidade(especialidade, localidade):
+
+    tempo_máx = 8 # Número de semanas que vamos analisar para perceber se existem vagas para consultas nesse período de tempo!
+    médicos_local = [med for med in médicos if med['especialidade'] == especialidade and med['localidade'] == localidade] # Médicos disponíveis por especialidade numa localidade
+
+    atual = date.today()
+    segunda_feira = atual - timedelta(days= atual.weekday()) # Início da semana atual
+
+    for semana in range(tempo_máx):
+
+        semana_0 = segunda_feira + timedelta(weeks= semana)
+        semana_fim = semana_0 + timedelta(days= 5) # As semanas foram anteriormente definidas de segunda a sábado!
+    
+        for dias in range(6):
+            dia = (semana_0 + timedelta(days= dias)).strftime('%Y-%m-%d')
+
+            for médico in médicos_local:
+                if slots_disponíveis(médico,dia):
+                    return f'Semana {semana_0.day}/{semana_0.month} - {semana_fim.day}/{semana_fim.month}'
+    
+    return f'Sem disponibilidade nas próximas {tempo_máx} semanas'
+
+def disponibilidade_local(localidade):
+
+    especialidades = {med['especialidade'] for med in médicos if med['localidade'] == localidade} # Set de modo a termos uma lista das especialidades SEM repetições
+    disponibilidade = []
+
+    for esp in especialidades:
+        semana = próxima_disponibilidade(esp, localidade)
+        disponibilidade.append([esp, semana])
+    return disponibilidade
+
+# Atributos dos Registados na Campanha de Vacinação
+class Vacinação:
+
+    def __init__(self, nome, data_nascimento, sexo, certificados, vacina, dose, CC, contacto, localidade):
+        
+        self.nome = nome.strip()
+        self.data_nascimento = data_nascimento.strip()
+        self.sexo = sexo
+        self.certificados = []
+        self.vacina = vacina
+        self.dose = dose
+        self._CC = CC
+        self.localidade = localidade.strip()
+        self._contacto = contacto
+
+        for certif in certificados.split(','):
+            
+            certif = certif.strip()
+
+            if certif:
+                blocos = certif.split(':')
+
+                if len(blocos) == 3:
+                    vac = blocos[0].strip()
+                    d = blocos[1].strip()
+                    data_adm = blocos[2].strip()
+                    self.certificados.append([vac,d,data_adm])
+                
+                else:
+                    self.certificados.append()
+                    
+    def idade(self): # Atualização automática da idade da pessoa registada para vacinação
+
+        nascimento = datetime.strptime(self.data_nascimento, '%Y-%m-%d')
+        atual = datetime.today()
+        idade = atual.year - nascimento.year - ((atual.month, atual.day) < (nascimento.month, nascimento.day))
+        return idade
+
+    def to_dict(self):
+
+        info_vacinação = self.__dict__.copy() # Criamos uma cópia do dicionário de modo a não perder as informações originais quando for realizada a alteração da chave 'idade'
+        info_vacinação['idade'] = self.idade()
+        return info_vacinação
+    
+# Atualização do Registo de Inscrições para Vacinação
+def guardar_vacinação(inscrição): # O argumento recebido é o dicionário com as informações da inscrição!!
+
+    fnome = 'camp_vac.json'
+
+    for i in campanha:
+        if i.get('_CC') == inscrição.get('_CC') and i.get('dose') == inscrição.get('dose') and i.get('vacina') == inscrição.get('vacina'): # Verificação de registos duplicados
+            return 'A inscrição já foi realizada!'
+    campanha.append(inscrição) 
+    
+    atualizar_certif = False
+
+    if inscrição['certificados']:
+        for p in pacientes:
+            if inscrição['_CC'] == p['_CC']:
+                p['certificados'] = inscrição['certificados']
+                atualizar_certif = True
+
+    if atualizar_certif:
+        try:
+            with open('pacientes.json', 'w', encoding= 'utf-8') as f2:
+                json.dump(pacientes, f2, ensure_ascii= False, indent= 4)
+
+        except Exception as e: print(e)
+
+    try:
+        with open(fnome,'w', encoding= 'utf-8') as f:
+            json.dump(campanha, f, ensure_ascii= False, indent= 4)
+        return f'Inscrição registada com sucesso!'
+
+    except:
+        return f'Erro! Não foi possível guardar a inscrição!'
