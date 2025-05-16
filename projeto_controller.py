@@ -3,7 +3,6 @@ import projeto_model as model
 import projeto_view as view
 from datetime import datetime, timedelta
 
-
 # Processamento do Novo Registo de Utente
 def processar_registo(values):
 
@@ -25,8 +24,8 @@ def processar_registo(values):
         res = model.guardar_registo(paciente.to_dict())
         return res
 
-    except:
-        pass
+    except Exception as e:
+        print(e)
 
 # Processamento do Log In do Utente
 paciente_logged = None
@@ -37,15 +36,15 @@ def check_login(values):
         sucesso, paciente = model.log_in(CC = int(values['-UTENTE_CC-']))
 
         if sucesso:
-
             global paciente_logged
             paciente_logged = paciente
             return True
+        
         else:
             return False
         
-    except:
-        pass
+    except Exception as e:
+        print(e)
 
 def info_paciente_logged(): # Informações do paciente que realizou log in no portal!
     return paciente_logged
@@ -71,7 +70,7 @@ def agenda_especialidade(especialidade, semana_0):
     agenda = {}
     consultas = model.consultas
 
-    for dia_index,dia in enumerate(semana):
+    for dia_index, dia in enumerate(semana):
 
         data = dia.strftime('%Y-%m-%d')
 
@@ -83,13 +82,11 @@ def agenda_especialidade(especialidade, semana_0):
             med_restantes = [med for med in med_especialistas if med['id'] not in slot_ocupado] # Criamos uma lista dos médicos que ainda possuem vagas para o slot selecionado!
 
             if med_restantes:
-
                 restantes_id = tuple(med['id'] for med in med_restantes)
                 display = 'Disponível'
                 agenda[(dia_index,slot)] = {'médico': display, 'marcada': False, 'id_médico': restantes_id}
 
             else:
-
                 slot_ocupado_id = slot_ocupado[0]
                 display = 'Ocupado'
                 agenda[(dia_index,slot)] = {'médico': display, 'marcada': True, 'id_médico': slot_ocupado_id}
@@ -116,7 +113,7 @@ def processar_marcar_consulta(data, slot, especialidade, med_id, paciente_id):
     res = model.marcar_consulta(nova_consulta)
     return res
 
-# Processamento da Informação de Consultas Concluídas do Paciente
+# Processamento da Informação de Todas as Consultas do Paciente (Concluídas + Futuras)
 def info_hist_consultas(paciente_id):
     
     consultas_ind = model.hist_consultas(paciente_id)
@@ -134,10 +131,45 @@ def info_consultas_futuras(paciente_id):
     consultas_fut = model.consultas_futuras(paciente_id)
     return consultas_fut
 
+# Processamento da Informaçõa de Consultas A Cancelar
 def processar_cancelar_consulta(consulta):
 
     res = model.cancelar_cons(consulta)
     return res
+
+# Informações Médicos Especialistas
+def get_info_médicos():
+
+    res = model.médicos
+    return res
+
+# Informações da Disponibilidade de Marcação de Consultas Por Localidade
+def info_disponibilidade_local(localidade):
+
+    res = model.disponibilidade_local(localidade)
+    return res
+
+# Processamento do Novo Registo para Vacinação
+def processar_vacinação(values):
+
+    try:
+        vacinação = model.Vacinação(
+            nome = values['-NOME-'],
+            data_nascimento = values['-DOB-'],
+            sexo = values['-SEXO-'],
+            certificados = values['-CERTIF-'],
+            vacina = values['-VACINA-'],
+            dose = values['-DOSE-'],
+            CC = int(values['-CC-']) if values['-CC-'] else None,
+            contacto = int(values['-CP-']) if values['-CP-'] else None,
+            localidade = values['-LOCAL-']
+        )
+    
+        res = model.guardar_vacinação(vacinação.to_dict())
+        return res
+
+    except Exception as e:
+        print(e)
 
 def main():
     view.run_interface()
