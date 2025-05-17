@@ -1,4 +1,4 @@
-# CONTROLLER -> Controlo do Sistema, Funções de Arranque
+# CONTROLLER -> Arranque da Interface, Passagem de Informação (Model -> View)
 import projeto_model as model
 import projeto_view as view
 from datetime import datetime, timedelta
@@ -125,6 +125,12 @@ def info_hist_medicações(paciente_id):
     medicações_ind = model.hist_medicações(paciente_id)
     return medicações_ind
 
+# Processamento da Informação de Certificados de Vacinação do Paciente
+def info_hist_certificados(paciente_id):
+    
+    certificados_ind = model.hist_certificados(paciente_id)
+    return certificados_ind
+
 # Processamento da Informação de Consultas Não Concluídas do Paciente
 def info_consultas_futuras(paciente_id):
 
@@ -143,7 +149,7 @@ def get_info_médicos():
     res = model.médicos
     return res
 
-# Informações da Disponibilidade de Marcação de Consultas Por Localidade
+# Processamento da Informação de Disponibilidade de Marcação de Consultas Por Localidade
 def info_disponibilidade_local(localidade):
 
     res = model.disponibilidade_local(localidade)
