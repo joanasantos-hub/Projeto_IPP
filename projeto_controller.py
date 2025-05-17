@@ -171,6 +171,27 @@ def processar_vacinação(values):
     except Exception as e:
         print(e)
 
+# Processamento das Informações das Distruibuições de Inscrições na Campanha de Vacinação
+def info_dist_faixa():
+
+    res = model.dist_faixas_etárias()
+    return res
+
+def info_dist_sexo():
+
+    res = model.dist_sexo()
+    return res
+
+def info_dist_localidade():
+
+    res = model.dist_localidade()
+    return res
+
+def info_dist_vacina():
+
+    res = model.dist_vacina()
+    return res
+
 def main():
     view.run_interface()
 
