@@ -1,7 +1,7 @@
 # VIEW -> Interface Gráfica
 import PySimpleGUI as sg
+import matplotlib.pyplot as plt
 import projeto_controller as control
-import projeto_model as model
 from datetime import date, timedelta, datetime
 
 sg.theme_background_color("#FFC0E1") 
@@ -56,8 +56,7 @@ def Novo_Reg_Layout():
                 sg.popup('Por favor preencha os campos obrigatórios (*)!', font= ("Arial Rounded Mt Bold", 14), text_color= 'white', background_color= '#FFC0E1')
                 continue
 
-            # Verificação do Formato de Input das Medicações
-            input_med = values['-MEDS-'].strip()
+            input_med = values['-MEDS-'].strip() # Verificação do Formato de Input das Medicações
 
             info_válida = False
 
@@ -75,6 +74,7 @@ def Novo_Reg_Layout():
 
             res = control.processar_registo(values)
             sg.popup(res, font= ("Arial Rounded Mt Bold", 14), text_color= 'white', background_color= '#FFC0E1')
+            window.close()
 
 def Log_In_Layout():
 
@@ -107,8 +107,7 @@ def Log_In_Layout():
             elif res is False:
                 sg.popup('Registo de utente não encontrado! Por favor, realize a sua inscrição na plataforma.', font= ("Arial Rounded Mt Bold", 14), text_color= 'white', background_color= '#FFC0E1')
 
-# Atualização do Histórico de Consultas Imediatamente Após Marcação
-def Atualizar_Tab_Consultas(paciente_id):
+def Atualizar_Tab_Consultas(paciente_id): # Atualização do histórico de consultas imediatamente após marcação de nova consulta
 
     atualizações = []
     cons_atualizadas = control.info_hist_consultas(paciente_id) # Ao chamar outra vez a base de dados asseguramos que já possui as novas consultas!
@@ -130,6 +129,7 @@ def Portal_Utente_Layout():
     paciente_id = paciente.get('id')
     consultas = control.info_hist_consultas(paciente_id)
     medicações = control.info_hist_medicações(paciente_id)
+    certificados = control.info_hist_certificados(paciente_id)
 
     tab_cons = []
     tab_medicações = []
@@ -149,14 +149,23 @@ def Portal_Utente_Layout():
 
         medicamento = medicação[0]
         dosagem = medicação[1]
+        
         tab_medicações.append([medicamento, dosagem])
+    
+    for certificado in certificados:
+
+        vacina = certificado[0]
+        dose = certificado[1]
+        data_adm = certificado[2]
+
+        tab_certificados.append([vacina, dose, data_adm])
 
     headers_cons = ['Data', 'Horário', 'Médico Especialista', 'Especialidade']
     headers_medicações = ['Medicação', 'Dosagem']
     headers_certificados = ['Vacina', 'Dose', 'Data']
 
     certificados = [ # Tabela de certificados de vacinação (vacina, dose, data de administração)
-        [sg.Table(values= tab_certificados, headings= headers_certificados, auto_size_columns= False, justification= 'centre', num_rows= 3, max_col_width= 50, font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_VAC-' )]
+        [sg.Table(values= tab_certificados, headings= headers_certificados, auto_size_columns= False, justification= 'centre', num_rows= 2, max_col_width= 50, font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_VAC-' )]
     ]
 
     hist_consultas = [ # Tabela de todas as consultas (data, horário, médico especialista, especialidade)
@@ -164,7 +173,7 @@ def Portal_Utente_Layout():
     ]
 
     hist_medicações = [ # Tabela de medicações (nome da prescrição, dosagem)
-        [sg.Table(values= tab_medicações, headings= headers_medicações, auto_size_columns= False, justification= 'centre', num_rows= 3, max_col_width= 50, font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_MEDICA-' )]
+        [sg.Table(values= tab_medicações, headings= headers_medicações, auto_size_columns= False, justification= 'centre', num_rows= 1, max_col_width= 50, font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_MEDICA-' )]
     ]
 
     layout = [
@@ -302,7 +311,7 @@ def Especialidade_Cons_Layout():
                 return values['-SEL_ESPEC-']
             
             else:
-                sg.popup('Por favor selecione uma especialidade para avançar!')
+                sg.popup('Por favor selecione uma especialidade para avançar!', font= ("Arial Rounded Mt Bold", 14), text_color= 'white', background_color= '#FFC0E1')
 
 def Agenda_Cons_Layout(especialidade, paciente_id):
 
@@ -426,11 +435,11 @@ def Med_Disponíveis_Layout(especialidade, restantes_id):
             escolha = values['-MED_ESC-']
             
             if escolha:
-                seleção = next((med for med in med_disponíveis if f"{med['nome']} - {med['localidade']}" == escolha), None)
+                seleção = next((med for med in med_disponíveis if f'{med['nome']} - {med['localidade']}' == escolha), None)
                 window.close()
                 return seleção
             
-            else: sg.popup('Por favor selecione um médico especialista!')
+            else: sg.popup('Por favor selecione um médico especialista!', font= ("Arial Rounded Mt Bold", 14), text_color= 'white', background_color= '#FFC0E1')
 
 def Marcação_Cons_Layout(data, slot, med_nome, med_id, especialidade, paciente_id):
 
@@ -489,44 +498,41 @@ def Informações_Layout():
     headers_disponibilidades = ['Especialidade', 'Próxima Disponibilidade']
 
     # Tabela de disponibilidade de marcação de consultas para São Martinho das Amoreiras
-    tab_sma = [sg.Table(values= disp_sma, headings= headers_disponibilidades, auto_size_columns= True, justification= 'centre', num_rows= 7, max_col_width= 35, font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_SMA-')]
+    tab_sma = sg.Table(values= disp_sma, headings= headers_disponibilidades, auto_size_columns= True, justification= 'centre', num_rows= 7, max_col_width= 35, font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_SMA-')
 
     # Tabela de disponibilidade de marcação de consultas para Valverde
-    tab_valverde = [sg.Table(values= disp_valverde, headings= headers_disponibilidades, auto_size_columns= True, justification= 'centre', num_rows= 7, max_col_width= 35, font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_VALVERDE-' )]
+    tab_valverde = sg.Table(values= disp_valverde, headings= headers_disponibilidades, auto_size_columns= True, justification= 'centre', num_rows= 7, max_col_width= 35, font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_VALVERDE-' )
 
     # Tabela de disponibilidade de marcação de consultas para Santa Vitória
-    tab_svitória = [sg.Table(values= disp_svitória, headings= headers_disponibilidades, auto_size_columns= True, justification= 'centre', num_rows= 7, max_col_width= 35, font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_SVITÓRIA-' )]
+    tab_svitória = sg.Table(values= disp_svitória, headings= headers_disponibilidades, auto_size_columns= True, justification= 'centre', num_rows= 7, max_col_width= 35, font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_SVITÓRIA-' )
 
     # Tabela de disponibilidade de marcação de consultas para Albernoa
-    tab_albernoa = [sg.Table(values= disp_albernoa, headings= headers_disponibilidades, auto_size_columns= True, justification= 'centre', num_rows= 7, max_col_width= 35, font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_ALBERNOA-' )]
+    tab_albernoa = sg.Table(values= disp_albernoa, headings= headers_disponibilidades, auto_size_columns= True, justification= 'centre', num_rows= 7, max_col_width= 35, font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_ALBERNOA-' )
     
     # Tabela de disponibilidade de marcação de consultas para São Bento do Mato
-    tab_sbm = [sg.Table(values= disp_sbm, headings= headers_disponibilidades, auto_size_columns= True, justification= 'centre', num_rows= 7, max_col_width= 35, font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_SBM-' )]
+    tab_sbm = sg.Table(values= disp_sbm, headings= headers_disponibilidades, auto_size_columns= True, justification= 'centre', num_rows= 7, max_col_width= 35, font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_SBM-' )
 
     # Tabela de disponibilidade de marcação de consultas para Nossa Senhora de Machede
-    tab_nsm = [sg.Table(values= disp_nsm, headings= headers_disponibilidades, auto_size_columns= True, justification= 'centre', num_rows= 7, max_col_width= 35, font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_NSM-' )]
+    tab_nsm = sg.Table(values= disp_nsm, headings= headers_disponibilidades, auto_size_columns= True, justification= 'centre', num_rows= 7, max_col_width= 35, font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_NSM-' )
 
     informações = [
         
         [sg.Text('★ Médicos Especialistas de Serviço', font= ("Arial Rounded Mt Bold", 14), text_color= 'white', background_color= '#FF69B4', key= '-HIST_CONS-')],
         [sg.Text('Código: CARDIOlogia, PNEUMologia, CLÍNICA Geral, ORTOpedia, OB/GIN, Medicina DENTária, PEDIATria', font= ("Arial Rounded Mt Bold", 12), text_color= 'white', background_color= '#FF69B4', key= '-CÓDIGO-')],
         med_especialistas_info,
-        [sg.Text('★ Disponibilidade de Agendamento - S. Martinho das Amoreiras', font= ("Arial Rounded Mt Bold", 14), text_color= 'white', background_color= '#FF69B4', key= '-HIST_CONS-')],
-        tab_sma,
-        [sg.Text('★ Disponibilidade de Agendamento - Valverde', font= ("Arial Rounded Mt Bold", 14), text_color= 'white', background_color= '#FF69B4', key= '-HIST_CONS-')],
-        tab_valverde,
-        [sg.Text('★ Disponibilidade de Agendamento - S. Vitória', font= ("Arial Rounded Mt Bold", 14), text_color= 'white', background_color= '#FF69B4', key= '-HIST_CONS-')],
-        tab_svitória,
-        [sg.Text('★ Disponibilidade de Agendamento - Albernoa', font= ("Arial Rounded Mt Bold", 14), text_color= 'white', background_color= '#FF69B4', key= '-HIST_CONS-')],
-        tab_albernoa,
-        [sg.Text('★ Disponibilidade de Agendamento - S. Bento do Mato', font= ("Arial Rounded Mt Bold", 14), text_color= 'white', background_color= '#FF69B4', key= '-HIST_CONS-')],
-        tab_sbm,
-        [sg.Text('★ Disponibilidade de Agendamento - Nossa Senhora de Machede', font= ("Arial Rounded Mt Bold", 14), text_color= 'white', background_color= '#FF69B4', key= '-HIST_CONS-')],
-        tab_nsm,
-        [sg.Text('O agendamento de consultas deve ser realizado no portal do utente!', font= ("Arial Rounded Mt Bold", 14), text_color= 'white', background_color= '#FF69B4', key= '-AVISO-'), sg.Button('Sair', font= ("Arial Rounded Mt Bold", 14), key= '-SAIR-')]
+        [sg.Text('--------------------------------------------------------------------------------------------------------------------------------', font= ("Arial Rounded Mt Bold", 20), text_color= 'white', background_color= '#FFC0E1', key= '-DIV-')],
+        [sg.Text('★ Agendamento de Consulta - São Martinho das Amoreiras, Valverde', font= ("Arial Rounded Mt Bold", 14), text_color= 'white', background_color= '#FF69B4', key= '-HIST_CONS-')],
+        [tab_sma, tab_valverde],
+        [sg.Text('--------------------------------------------------------------------------------------------------------', font= ("Arial Rounded Mt Bold", 20), text_color= 'white', background_color= '#FFC0E1', key= '-DIV-')],
+        [sg.Text('★ Agendamento de Consulta - Santa Vitória, Albernoa', font= ("Arial Rounded Mt Bold", 14), text_color= 'white', background_color= '#FF69B4', key= '-HIST_CONS-')],
+        [tab_svitória, tab_albernoa],
+        [sg.Text('--------------------------------------------------------------------------------------------------------', font= ("Arial Rounded Mt Bold", 20), text_color= 'white', background_color= '#FFC0E1', key= '-DIV-')],
+        [sg.Text('★ Agendamento de Consulta - São Bento do Mato, Nossa Senhora de Machede', font= ("Arial Rounded Mt Bold", 14), text_color= 'white', background_color= '#FF69B4', key= '-HIST_CONS-')],
+        [tab_sbm, tab_nsm],
+        [sg.Button('Sair', font= ("Arial Rounded Mt Bold", 14), key= '-SAIR-')]
     ]
     
-    scroll = sg.Column(informações, size= (875,500), scrollable= True, vertical_scroll_only= True)
+    scroll = sg.Column(informações, size= (875,450), scrollable= True, vertical_scroll_only= True)
     layout = [[scroll]]
 
     window = sg.Window('Informações', layout)
@@ -546,7 +552,7 @@ def Campanha_Vac_Layout():
     header_loc = ['Localidades Abrangidas', 'Datas']
 
     tab_plano_vac = []
-    header_plano = ['Plano de Vacinação','Doses a Administrar']
+    header_plano = ['Plano de Vacinação', 'Doses a Administrar']
 
     localidades = [['Aveleda e Rio de Onor','20/9'],['Castro Laboreiro','21/9'],['Sobradelo da Goma','22/9'],
                    ['Aldeia das Dez','23/9'],['Piódão','24/9'],['Janeiro de Cima','25/9'],
@@ -569,8 +575,9 @@ def Campanha_Vac_Layout():
 
     layout = [
 
-        [sg.Text('★ Campanha "Saúde Sobre Rodas", 20 de Setembro - 1 de Outubro 2025', font= ("Arial Rounded Mt Bold", 17), text_color= 'white', background_color= '#FF69B4', key= '-T_CAMP-')],
-        [sg.Text('Juntos, vamos levar saúde e esperança às comunidades remotas do nosso país!', font= ("Arial Rounded Mt Bold", 15), text_color= 'white', background_color= '#FF69B4', key= '-T_CAMP2-')],
+        [sg.Text('★ Campanha "Saúde Sobre Rodas", 20 de Setembro - 1 de Outubro 2025', font= ("Arial Rounded Mt Bold", 19), text_color= 'white', background_color= '#FF69B4', key= '-T_CAMP-')],
+        [sg.Text('Juntos, vamos levar saúde e esperança às comunidades remotas do nosso país!', font= ("Arial Rounded Mt Bold", 17), text_color= 'white', background_color= '#FF69B4', key= '-T_CAMP2-')],
+        [sg.Text('Inscrições abertas até 5 de Junho', font= ("Arial Rounded Mt Bold", 15), text_color= 'white', background_color= '#FF69B4', key= '-T_CAMP2-')],
         [sg.Table(values= tab_localidades, headings= header_loc, auto_size_columns= False, justification= 'centre', num_rows= 4, col_widths=[20, 9], font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_LOC-'), 
          sg.Table(values= tab_plano_vac, headings= header_plano, auto_size_columns= True, justification= 'centre', num_rows= 4, max_col_width= 35, font= ("Arial Rounded Mt Bold", 13), text_color= '#FF69B4', background_color= 'white', alternating_row_color= '#FCE5FC', key= '-TAB_PLANO-')],
         [sg.Button('Inscreva-se já!', font= ("Arial Rounded Mt Bold", 14), key= '-NOVA_INSC-'), sg.Button('Estatísticas', font= ("Arial Rounded Mt Bold", 14), key= '-STATS-'), sg.Button('Sair', font= ("Arial Rounded Mt Bold", 14), key= '-SAIR-')]
@@ -591,7 +598,7 @@ def Campanha_Vac_Layout():
             Nova_Insc_Layout()
 
         elif event == '-STATS-':
-            pass
+            Estatísticas_Layout()
 
 def Nova_Insc_Layout():
 
@@ -646,6 +653,71 @@ def Nova_Insc_Layout():
 
             res = control.processar_vacinação(values)
             sg.popup(res, font= ("Arial Rounded Mt Bold", 14), text_color= 'white', background_color= '#FFC0E1')
+            window.close()
+
+def Estatísticas_Layout():
+
+    faixas_etárias = control.info_dist_faixa()
+    sexo = control.info_dist_sexo()
+    localidade = control.info_dist_localidade()
+    vacinas = control.info_dist_vacina()
+
+    def gráfico_circ(dist, título, xlabel):
+
+        plt.figure(figsize=(6,4))
+        plt.bar(dist.keys(), dist.values(), color= '#FFC0E1', width= 0.4)
+        plt.title(título, fontdict= {'fontname': 'Arial Rounded Mt Bold', 'fontsize': 16})
+        plt.xlabel(xlabel, fontdict= {'fontname': 'Arial Rounded Mt Bold', 'fontsize': 14})
+        plt.ylabel('Inscrições', fontdict= {'fontname': 'Arial Rounded Mt Bold', 'fontsize': 14})
+        plt.xticks(fontname= 'Arial Rounded Mt Bold', fontsize= 13)
+        plt.tight_layout()
+        plt.show(block= False)
+
+    layout = [
+
+        [sg.Button('Distribuição por Faixa Etária', font= ("Arial Rounded Mt Bold", 14), key= '-IDADES-'), sg.Button('Distribuição por Sexo', font= ("Arial Rounded Mt Bold", 14), key= '-SEXO-')],
+        [sg.Button('Distribuição por Localidade', font= ("Arial Rounded Mt Bold", 14), key= '-LOCAL-'), sg.Button('Distribuição por Vacina Administrada', font= ("Arial Rounded Mt Bold", 14), key= '-VACINA-')],
+        [sg.Button('Sair', font= ("Arial Rounded Mt Bold", 14), key= '-SAIR-')]
+    ]
+    
+    window = sg.Window('Estatísticas', layout)
+
+    while True:
+
+        event, values = window.read()
+
+        if event in (sg.WIN_CLOSED, '-SAIR-'):
+            
+            window.close()
+            return
+        
+        elif event == '-IDADES-':
+            gráfico_circ(faixas_etárias,'Distribuição por Faixa Etárias','Faixas Etárias')
+
+        elif event == '-SEXO-':
+
+            plt.figure(figsize=(5,3))
+            plt.bar(sexo.keys(), sexo.values(), color= '#FFC0E1', width= 0.4)
+            plt.title('Distribuição por Sexo', fontdict= {'fontname': 'Arial Rounded Mt Bold', 'fontsize': 16})
+            plt.xlabel('Sexo', fontdict= {'fontname': 'Arial Rounded Mt Bold', 'fontsize': 14})
+            plt.ylabel('Inscrições', fontdict= {'fontname': 'Arial Rounded Mt Bold', 'fontsize': 14})
+            plt.xticks(fontname= 'Arial Rounded Mt Bold', fontsize= 13)
+            plt.tight_layout()
+            plt.show(block= False)
+
+        elif event == '-LOCAL-':
+            
+            plt.figure(figsize=(7,5))
+            plt.bar(localidade.keys(), localidade.values(), color= '#FFC0E1')
+            plt.title('Distribuição por Localidade', fontdict= {'fontname': 'Arial Rounded Mt Bold', 'fontsize': 16})
+            plt.xlabel('Localidades', fontdict= {'fontname': 'Arial Rounded Mt Bold', 'fontsize': 14})
+            plt.ylabel('Inscrições', fontdict= {'fontname': 'Arial Rounded Mt Bold', 'fontsize': 14})
+            plt.xticks(rotation= 45, ha= 'right', fontname=' Arial Rounded Mt Bold', fontsize= 13)
+            plt.tight_layout()
+            plt.show(block= False)
+
+        elif event == '-VACINA-':
+            gráfico_circ(vacinas,'Distribuição por Vacina Administrada','Vacinas Administradas')
 
 def run_interface():
 
