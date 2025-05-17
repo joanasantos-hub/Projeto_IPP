@@ -211,6 +211,13 @@ def hist_medicações(paciente_id):
             return paciente['medicações']
     return []
 
+def hist_certificados(paciente_id):
+
+    for paciente in pacientes:
+        if paciente_id == paciente['id'] and paciente['certificados']:
+            return paciente['certificados']
+    return []
+
 # Disponibilidade de Marcação de Consultas por Especialidade em Cada Localidade
 def próxima_disponibilidade(especialidade, localidade):
 
@@ -320,3 +327,67 @@ def guardar_vacinação(inscrição): # O argumento recebido é o dicionário co
 
     except:
         return f'Erro! Não foi possível guardar a inscrição!'
+
+# Campanha de Vacinação -> Distribuição Faixa Etária
+def dist_faixas_etárias():
+    
+    res = {'0-17': 0, '18-30': 0, '31-50': 0, '51-60': 0, '61-70': 0, '>70': 0 }
+
+    for i in campanha:
+        idade = i['idade']
+
+        if idade <= 17:
+            res['0-17'] = res['0-17'] + 1
+
+        elif idade in range(18,31):
+            res['18-30'] = res['18-30'] + 1
+
+        elif idade in range(31,51):
+            res['31-50'] = res['31-50'] + 1
+
+        elif idade in range(51,61):
+            res['51-60'] = res['51-60'] + 1
+
+        elif idade in range(61,71):
+            res['61-70'] = res['61-70'] + 1
+        
+        elif idade > 70:
+            res['>70'] = res['>70'] + 1
+    return res
+
+# Campanha de Vacinação -> Distribuição Sexo
+def dist_sexo():
+
+    res = {'F': 0, 'M': 0}
+
+    for i in campanha:
+        sexo = i['sexo']
+
+        if sexo in res:
+            res[sexo] = res[sexo] + 1
+    return res
+
+# Campanha de Vacinação -> Distribuição Localidade
+def dist_localidade():
+
+    res = {'Sobradelo da Goma': 0, 'Aldeia das Dez': 0, 'Janeiro de Cima': 0, 'Aveleda e Rio de Onor': 0, 'Barrancos': 0, 'Piódão': 0,
+           'Monte da Pedra': 0, 'Cachopo': 0, 'Alferce': 0, 'Castro Laboreiro': 0, 'S. Martinho das Amoreiras': 0, 'Martim Longo': 0}
+    
+    for i in campanha:
+        localidade = i['localidade']
+
+        if localidade in res:
+            res[localidade] = res[localidade] + 1
+    return res
+
+# Campanha de Vacinação -> Distribuição Tipo de Vacina
+def dist_vacina():
+
+    res = {'COVID-19': 0, 'Gripe A': 0, 'HPV': 0, 'Tétano e Difteria': 0}
+
+    for i in campanha:
+        vacina = i['vacina']
+
+        if vacina in res:
+            res[vacina] = res[vacina] + 1
+    return res
